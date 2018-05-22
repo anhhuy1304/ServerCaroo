@@ -71,6 +71,16 @@ public class ThreadServer extends Thread {
                             }
                         }
 
+                    case QUIT:
+                        for(int i=0; i<MaxClientConnect; i++) {
+                            if(list[i] == this) {
+                                list[i] = null;
+                                os.close();
+                                is.close();
+                                SocketOfServer.close();
+                            }
+                        }
+                        break;
 
                 }
             }

@@ -21,7 +21,7 @@ public class User {
     }
     public boolean inputUserToFile() throws IOException { //ham nay kiem tra xem username da ton tai chua, neu chua thi bo vao file va tra ve true, nguoc lai false
         //check xem username co ton tai chua
-        FileReader fr = new FileReader("D:\\Data.csv");
+        FileReader fr = new FileReader("../Data.csv");
         BufferedReader br = new BufferedReader(fr);
         String line="";
         while((line = br.readLine())!= null){
@@ -36,7 +36,7 @@ public class User {
         //neu chua ton tai thi add vao
         fr.close();
         br.close();
-        FileOutputStream fos = new FileOutputStream("D:\\data.csv",true);
+        FileOutputStream fos = new FileOutputStream("../Data.csv",true);
         PrintWriter pw = new PrintWriter(fos);
         pw.println(this.username + ',' + this.password + "," + this.name + "," + this.email +","+ this.coin + "," + this.exp);
         pw.close();
@@ -46,7 +46,7 @@ public class User {
     }
     public boolean checklogin() throws IOException { //ham nay kiem tra user va pass cua ng dung nhap co dung khong, dung de login
         String user = this.username, pass = this.password;
-        FileReader fr = new FileReader("D:\\Data.csv");
+        FileReader fr = new FileReader("C:\\Users\\tranp\\IdeaProjects\\ServerCaroo\\src\\Data.csv");
         BufferedReader br = new BufferedReader(fr);
         String line="";
         while((line = br.readLine())!= null){
