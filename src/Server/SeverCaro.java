@@ -9,25 +9,31 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 import Enum.*;
 
 
-public class SeverCaro  {
+public class SeverCaro extends Thread {
     private  static int MaxClient = 10;
     private static  ThreadServer list [] = new ThreadServer[MaxClient];
+    private static Queue<ThreadServer> Qlist   = new LinkedList<>();
     public static void main(String[] args) throws IOException {
         ServerSocket listen ;
         int clientNumber = 0;
         System.out.println("Wait...");
         listen = new ServerSocket(13047);
+        new SeverCaro().start();
             while(true){
                 try {
                     Socket sock = listen.accept();
+
                    // System.out.println("qua accept");
                     if(sock !=null){
                         for (int i = 0; i < MaxClient; i++) {
                             if (list[i] == null) {
-                                list[i] = new ThreadServer(sock, list,i);
+                                list[i] = new ThreadServer(sock, list,Qlist);
                                 list[i].start();
                                 break;
                             }
@@ -40,6 +46,26 @@ public class SeverCaro  {
             }
 
 
+    }
+    @Override
+    public void run(){
+        while (true) {
+            int size = Qlist.size();
+            size +=0;
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(size >1 ){
+                ThreadServer user1 = Qlist.remove();
+                ThreadServer user2 = Qlist.remove();
+                user1.setenemy(user2);
+                user2.setenemy(user1);
+                user1.sendMessage();
+            }
+
+        }
     }
 }
 
