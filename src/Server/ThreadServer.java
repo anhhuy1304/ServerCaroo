@@ -17,7 +17,7 @@ public class ThreadServer extends Thread {
     private ThreadServer enemy =null;
     private int numberclient = 0;
     private static Queue<ThreadServer> QList;
-
+    private  String Username="";
 
 
     public ThreadServer(Socket skofser, ThreadServer[] list, Queue<ThreadServer> Qlist) {
@@ -39,6 +39,9 @@ public class ThreadServer extends Thread {
             while ((str = is.readLine()) != null) {
                 Send s = Send.values()[str.charAt(0)];
                 switch (s) {
+                    case LOGIN:
+                        this.Username = str.substring(1,str.length());
+                        break;
                     case TICK :
                         enemy.os.write(str);
                         enemy.os.newLine();
@@ -47,7 +50,11 @@ public class ThreadServer extends Thread {
                     case FIND:
                         QList.add(this);
                         break;
-
+                    case IS_LOSE:
+                        enemy.os.write((char) Recv.IS_LOSE.ordinal() +"");
+                        enemy.os.newLine();
+                        enemy.os.flush();
+                        break;
                     case QUIT:
                         for(int i=0; i<MaxClientConnect; i++) {
                             if(list[i] == this) {
@@ -83,8 +90,16 @@ public class ThreadServer extends Thread {
 //
 //    }
     public void setenemy( ThreadServer enemy ){
-        this.enemy = enemy;
-        System.out.println("da set");
+        try {
+            this.enemy = enemy;
+            System.out.println("da set");
+            os.write((char) Recv.ENEMY.ordinal() + enemy.Username);
+            os.newLine();
+            os.flush();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
     public void sendMessage(){
 

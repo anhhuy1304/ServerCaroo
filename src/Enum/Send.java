@@ -7,5 +7,6 @@ public enum Send {
     LOGIN,
     LOGOUT,
     REGISTER,
+    IS_LOSE,
     QUIT
 }

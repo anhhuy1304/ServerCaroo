@@ -3,9 +3,9 @@ package Enum;
 public enum Recv {
     Zero,
     TICK,
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
+    ENEMY,
     LOGOUT,
     CANPLAY,
+    IS_LOSE,
     QUIT
 }
